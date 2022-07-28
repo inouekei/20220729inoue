@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="text">
+    <div v-for="name in nameList">{{name}}</div>
+  </div>
+  <style>
+  </style>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          people: ['佐藤', '山田', '鈴木', '田中'],
+          text:'',
+        }
+      },
+      computed:{
+        nameList: function (){
+          let array = [];
+          for (i = 0; i < this.people.length; i++) {
+            if(this.people[i].includes(this.text)){
+              array.push(this.people[i]);
+            }
+          }
+          return array;
+        }
+      },
+    });
+  </script>
+</body>
+</html>

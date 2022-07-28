@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="tab-wrapper">
+      <tab v-for="content in contentsList" :tab-id='content.id' :active-tab-id='active_tab' v-on:clicked="clickTab($event)"></tab>
+    </div>
+    {{contentsList[active_tab - 1].content}}
+  </div>
+  <style>
+    .inactive, .active{
+      width: 300px;
+      display: block;
+      border: solid 1px gray;
+    }    
+
+    .inactive{
+      background-color: white;
+      color: black;
+    }
+    .active{
+      background-color: black;
+      color: white;
+    }
+
+    .tab-wrapper{
+      display: flex;
+    }
+    
+  </style>
+  <script>
+    Vue.component('tab', {
+        props: {
+          tabId: {
+          },
+          activeTabId:{
+          }
+        }, 
+        template: '<a v-on:click="tabClicked" :class="tabClass">タブ{{tabId}}</a>',
+        data: function () {
+          return {
+          }
+        },
+        computed:{
+          tabClass(){
+            if(this.tabId === this.activeTabId){
+              return 'active';
+            }else{
+              return 'inactive';
+            }
+          }
+        },
+        methods: {
+          tabClicked: function () {
+            this.$emit('clicked', this.tabId);
+          }
+        }
+      })
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          active_tab: 1,
+          contentsList: [
+            {
+              id: 1,
+              content: 'コンテンツ1',
+            },
+            {
+              id: 2,
+              content: 'コンテンツ2',
+            },
+            {
+              id: 3,
+              content: 'コンテンツ3',
+            }
+          ]
+        }
+      },
+      methods: {
+        clickTab: function (e) {
+          this.active_tab = e;
+        },
+      }
+    });
+  </script>
+</body>
+
+</html>
